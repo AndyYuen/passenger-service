@@ -28,18 +28,19 @@ public class PassengerEndpoint {
 
     
     @GET
-    @Path("/passengers")
+    @Path("/passengers/flight/{flightNumber}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Passenger> getPassengers() throws IOException, JSONException {
+    public List<Passenger> getPassengers(@PathParam("flightNumber") String flightNumber) throws IOException, JSONException {
     	List<Passenger> list = jsonReader.readFromResource();
     	return list;
     }
     
     @POST
-    @Path("/passengers")
+    @Path("/passengers/flight/{flightNumber}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addVipPassengers(List<Passenger> passengerList) {
+    public Response addVipPassengers(@PathParam("flightNumber") String flightNumber, List<Passenger> passengerList) {
+    	System.out.println("Flight Number: " + flightNumber);
     	for (Passenger passenger : passengerList) {
     		System.out.println(passenger);
     		System.out.println("----------------------------------------------------");
