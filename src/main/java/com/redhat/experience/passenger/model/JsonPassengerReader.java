@@ -51,16 +51,5 @@ public class JsonPassengerReader {
 		this.resourceName = resourceName;
 	}
 
-
-
-	public List<Passenger> createEventFromJsonResource() throws IOException, JSONException {
-		return readFromResource();
-	}
-
-
-	public List<Passenger> createEventFromJsonFile() throws IOException, JSONException {
-		return readFromFile();
-	}
-	
 	
 }
