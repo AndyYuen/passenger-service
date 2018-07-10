@@ -31,6 +31,8 @@ public class PassengerEndpoint {
     @Path("/passengers/flight/{flightNumber}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Passenger> getPassengers(@PathParam("flightNumber") String flightNumber) throws IOException, JSONException {
+    	System.out.println("getPassengers invoked Flight Number: " + flightNumber);
+    	System.out.println("Returning canned passenger list...");
     	List<Passenger> list = jsonReader.readFromResource();
     	return list;
     }
@@ -40,12 +42,13 @@ public class PassengerEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addVipPassengers(@PathParam("flightNumber") String flightNumber, List<Passenger> passengerList) {
-    	System.out.println("Flight Number: " + flightNumber);
+    	System.out.println("addVipPassengers invoked with Flight Number: " + flightNumber);
+    	System.out.println("Most important passenger list follows...");
     	for (Passenger passenger : passengerList) {
-    		System.out.println(passenger);
     		System.out.println("----------------------------------------------------");
+    		System.out.println(passenger);
     	}
-        return Response.status(200).build();
+        return Response.status(201).build();
     }
 
 }
