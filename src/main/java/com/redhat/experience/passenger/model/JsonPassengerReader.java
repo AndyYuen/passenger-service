@@ -31,11 +31,11 @@ public class JsonPassengerReader {
 	    
 	public List<Passenger> read(String content) throws IOException, JSONException {
 	    List<Passenger> list = new ArrayList<Passenger>();
-	    
+//	    System.out.println("DEBUG: " + content);
 		JSONArray array = new JSONArray(content);
 		for (int i = 0; i < array.length(); i++) {  
 		     JSONObject obj = array.getJSONObject(i);
-
+//		     System.out.println("DEBUG PCV: " + obj.getLong("PCV"));
 		list.add( new Passenger(obj.getString("prefix"),
 				obj.getString("firstName"),
 				obj.getString("middleName"),

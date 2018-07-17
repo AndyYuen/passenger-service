@@ -1,5 +1,7 @@
 package com.redhat.experience.passenger.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Passenger{
 
 
@@ -54,10 +56,12 @@ public class Passenger{
 		this.surName = surName;
 	}
 
+	@JsonProperty("PCV")
 	public long getPCV() {
 		return PCV;
 	}
 
+	@JsonProperty("PCV")
 	public void setPCV(long pCV) {
 		PCV = pCV;
 	}
