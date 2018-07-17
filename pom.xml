@@ -13,6 +13,7 @@
     <version.spring-boot>1.5.8.RELEASE</version.spring-boot>
     <version.fabric8-maven-plugin>3.5.28</version.fabric8-maven-plugin>
     <version.spring-cloud-kubernetes>0.2.0.RELEASE</version.spring-cloud-kubernetes>
+    <maven-compiler-plugin.version>3.6.0</maven-compiler-plugin.version>
     <run.profiles>dev</run.profiles>
   </properties>
   <dependencyManagement>
@@ -36,15 +37,10 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-<!--     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-web</artifactId>
 	</dependency>
-      <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
-    </dependency> -->
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
@@ -81,11 +77,6 @@
       <version>3.0.3</version>
       <scope>test</scope>
     </dependency>
-<!--     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <scope>runtime</scope>
-    </dependency> -->
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
@@ -109,8 +100,16 @@
     </dependency>
   </dependencies>
   <build>
-  	<defaultGoal>spring-boot:run</defaultGoal>
+    <defaultGoal>spring-boot:run</defaultGoal>
     <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -123,40 +122,19 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>io.fabric8</groupId>
+        <artifactId>fabric8-maven-plugin</artifactId>
+        <version>${version.fabric8-maven-plugin}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>resource</goal>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>openshift</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>io.fabric8</groupId>
-            <artifactId>fabric8-maven-plugin</artifactId>
-            <version>${version.fabric8-maven-plugin}</version>
-            <executions>
-              <execution>
-                <id>fmp</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>resource</goal>
-                  <goal>build</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <generator>
-                <config>
-                  <spring-boot>
-                    <fromMode>isTag</fromMode>
-                    <from>redhat-openjdk18-openshift:1.1</from>
-                  </spring-boot>
-                </config>
-              </generator>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
