@@ -8,7 +8,6 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,12 +27,14 @@ import com.redhat.experience.passenger.model.Passenger;
 @Path("/")
 public class PassengerEndpoint {
 	JsonPassengerReader jsonReader = new JsonPassengerReader("passenger.json");
+	static String SEPARATOR = "####################################################################################";
 
     
     @GET
     @Path("/passengers/flight/{flightNumber}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Passenger> getPassengers(@PathParam("flightNumber") String flightNumber) throws IOException, JSONException {
+    	System.out.println(SEPARATOR);
     	System.out.println("getPassengers invoked Flight Number: " + flightNumber);
     	System.out.println("Returning canned passenger list...");
     	List<Passenger> list = jsonReader.readFromResource();
@@ -46,6 +47,7 @@ public class PassengerEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public Response addVipPassengers(@PathParam("flightNumber") String flightNumber, List<Passenger> passengerList) {
     	System.out.println("addVipPassengers invoked with Flight Number: " + flightNumber);
+    	System.out.println(SEPARATOR);
     	System.out.println("Most important passenger list follows...");
     	for (Passenger passenger : passengerList) {
     		System.out.println("----------------------------------------------------");
@@ -60,8 +62,8 @@ public class PassengerEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addVipPassenger(@PathParam("flightNumber") String flightNumber, Passenger passenger) {
+    	System.out.println(SEPARATOR);
     	System.out.println("addVipPassengers invoked with Flight Number: " + flightNumber);
-    	System.out.println("Most important passenger list follows...");
 
     	System.out.println("Vip----------------------------------------------------");
     	System.out.println(passenger);
@@ -74,6 +76,7 @@ public class PassengerEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Passenger>  sortPassengers(List<Passenger> passengerList, @PathParam("count") long count) {
+    	System.out.println(SEPARATOR);
     	System.out.println("sorting passenger by PCV ");
     	System.out.println("Most important passenger list follows...");
 
