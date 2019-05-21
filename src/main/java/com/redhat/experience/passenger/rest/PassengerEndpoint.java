@@ -1,6 +1,9 @@
 package com.redhat.experience.passenger.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -50,5 +53,56 @@ public class PassengerEndpoint {
     	}
         return Response.status(201).build();
     }
+    
+    // new interfaces for demo'ing external REST Service calls
+    @POST
+    @Path("/passengers/flight/vip/{flightNumber}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response addVipPassenger(@PathParam("flightNumber") String flightNumber, Passenger passenger) {
+    	System.out.println("addVipPassengers invoked with Flight Number: " + flightNumber);
+    	System.out.println("Most important passenger list follows...");
+
+    	System.out.println("Vip----------------------------------------------------");
+    	System.out.println(passenger);
+
+        return Response.status(201).build();
+    }
+    
+    @POST
+    @Path("/passengers/flight/sort/{count}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Passenger>  sortPassengers(List<Passenger> passengerList, @PathParam("count") long count) {
+    	System.out.println("sorting passenger by PCV ");
+    	System.out.println("Most important passenger list follows...");
+
+    	sortSmallestFirst(passengerList);
+		if (count > passengerList.size()) count = passengerList.size();
+		List<Passenger> topList = new ArrayList<Passenger>();
+		for (int i = 0; i < count; i++) {
+			topList.add(passengerList.get(i));
+		}
+    	for (Passenger passenger : topList) {
+    		System.out.println("----------------------------------------------------");
+    		System.out.println(passenger);
+    	}
+		return topList;
+
+    }
+    
+	public void sortSmallestFirst(List<Passenger> passengers) {
+		Collections.sort(passengers, new SortbyPcv());
+	}
+	
+	class SortbyPcv implements Comparator<Passenger>
+	{
+	    // Used for sorting in ascending order of
+	    // PCV
+	    public int compare(Passenger a, Passenger b)
+	    {
+	        return (int) (a.getPCV() - b.getPCV());
+	    }
+	}
 
 }
